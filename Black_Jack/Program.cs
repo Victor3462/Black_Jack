@@ -55,8 +55,8 @@ while (!Raylib.WindowShouldClose())
 
         Raylib.ClearBackground(pokergreen);
 
-        Raylib.DrawText("BLACKJACK", 200, 125, 75, Color.GOLD);
-        Raylib.DrawText("PRESS ENTER TO START", Raylib.GetScreenWidth() / 3, 250, 25, Color.WHITE);
+        Raylib.DrawText("BLACKJACK", 175, 125, 75, Color.GOLD);
+        Raylib.DrawText("PRESS ENTER TO START", Raylib.GetScreenWidth() / 3 - 25, 250, 25, Color.WHITE);
 
         if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
         {
@@ -72,9 +72,13 @@ while (!Raylib.WindowShouldClose())
         Raylib.DrawText("Place your bets:", Raylib.GetScreenWidth() / 3 - 60, 125, 50, Color.WHITE);
         Raylib.DrawText($"{betAmount}", Raylib.GetScreenWidth() / 2 - 25, 250, 50, Color.LIGHTGRAY);
 
-        if(Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT) || betAmount < playerMoney)
+        if(Raylib.IsKeyPressed(KeyboardKey.KEY_RIGHT) && betAmount < playerMoney)
         {
             betAmount = betAmount + 100;
+        }
+        else if(Raylib.IsKeyPressed(KeyboardKey.KEY_LEFT) && betAmount > 0)
+        {
+            betAmount = betAmount - 100;
         }
 
 
