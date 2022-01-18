@@ -13,6 +13,7 @@ int houseCardTotal = 0;
 int betAmount = 100;
 
 
+Random generator = new Random();
 
 string currentMenu = "start";
 
@@ -56,9 +57,9 @@ while (!Raylib.WindowShouldClose())
         Raylib.ClearBackground(pokergreen);
 
         Raylib.DrawText("BLACKJACK", 175, 125, 75, Color.GOLD);
-        Raylib.DrawText("PRESS ENTER TO START", Raylib.GetScreenWidth() / 3 - 25, 250, 25, Color.WHITE);
+        Raylib.DrawText("PRESS SPACE TO START", Raylib.GetScreenWidth() / 3 - 25, 250, 25, Color.WHITE);
 
-        if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_SPACE))
         {
             currentMenu = "betting";
         }
@@ -69,8 +70,9 @@ while (!Raylib.WindowShouldClose())
     {
         Raylib.ClearBackground(pokergreen);
 
-        Raylib.DrawText("Place your bets:", Raylib.GetScreenWidth() / 3 - 60, 125, 50, Color.WHITE);
+        Raylib.DrawText("Place your bets:", Raylib.GetScreenWidth() / 3 - 75, 125, 50, Color.WHITE);
         Raylib.DrawText($"{betAmount}", Raylib.GetScreenWidth() / 2 - 25, 250, 50, Color.LIGHTGRAY);
+        Raylib.DrawText("USE < > TO CHANGE BET AMOUNT", Raylib.GetScreenWidth() / 3 - 75 , 350, 25, Color.WHITE);
 
         if(Raylib.IsKeyPressed(KeyboardKey.KEY_RIGHT) && betAmount < playerMoney)
         {
@@ -80,10 +82,24 @@ while (!Raylib.WindowShouldClose())
         {
             betAmount = betAmount - 100;
         }
-
+        if(Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER))
+        {
+            currentMenu = "playing";
+        }
+       
 
     }
+    
+    if(currentMenu == "playing")
+    {
+        string totalpot = betAmount.ToString();
 
+        Raylib.ClearBackground(pokergreen);
+
+        Raylib.DrawText("Dealer", Raylib.GetScreenWidth() / 2 - 50, 25, 25, Color.WHITE);
+        Raylib.DrawText("You", Raylib.GetScreenWidth() / 2 - 40, 550, 25, Color.WHITE);
+        Raylib.DrawText($"Your bet = {totalpot}", Raylib.GetScreenWidth() / 2 - 100, Raylib.GetScreenHeight() / 2, 25, Color.WHITE);
+    }
 
 
 
