@@ -2,30 +2,81 @@
 using Raylib_cs;
 using System.Collections.Generic;
 
-Raylib.InitWindow(800,600,"Black Jack");
+Raylib.InitWindow(800, 600, "Black Jack");
 Raylib.SetTargetFPS(60);
 
-Color pokergreen = new Color(53,101,77,255);
+Color pokergreen = new Color(53, 101, 77, 255);
 
 int playerMoney = 1000;
-int playerCardValue = 0;
-int dealerCardValue = 0;
+int playerCardTotal = 0;
+int houseCardTotal = 0;
+int betAmount = 100;
 
 
 
 string currentMenu = "start";
 
 
-while(!Raylib.WindowShouldClose())
+List<Card> deck = new List<Card>();
+
+deck.Add(new Card() { name = "Ace", value = 11, value2 = 1 });
+deck.Add(new Card() { name = "King", value = 10, });
+deck.Add(new Card() { name = "Queen", value = 10 });
+deck.Add(new Card() { name = "Jack", value = 10 });
+deck.Add(new Card() { name = "Ten", value = 10 });
+deck.Add(new Card() { name = "Nine", value = 9 });
+deck.Add(new Card() { name = "Eight", value = 8 });
+deck.Add(new Card() { name = "Seven", value = 7 });
+deck.Add(new Card() { name = "Six", value = 6 });
+deck.Add(new Card() { name = "Five", value = 5 });
+deck.Add(new Card() { name = "Four", value = 4 });
+deck.Add(new Card() { name = "Three", value = 3 });
+deck.Add(new Card() { name = "Two", value = 2 });
+
+
+
+
+
+// for (int i = 0; i < deck.Count; i++)
+// {
+// Console.WriteLine(deck[i].name);
+// }
+
+
+// Card c = deck[0];
+
+while (!Raylib.WindowShouldClose())
 {
 
     Raylib.BeginDrawing();
 
-    if(currentMenu == "start"){
+    if (currentMenu == "start")
+    {
 
         Raylib.ClearBackground(pokergreen);
-        
-        Raylib.DrawText("BLACKJACK",200,125,75,Color.GOLD);
+
+        Raylib.DrawText("BLACKJACK", 200, 125, 75, Color.GOLD);
+        Raylib.DrawText("PRESS ENTER TO START", Raylib.GetScreenWidth() / 3, 250, 25, Color.WHITE);
+
+        if (Raylib.IsKeyDown(KeyboardKey.KEY_ENTER))
+        {
+            currentMenu = "betting";
+        }
+
+    }
+
+    if (currentMenu == "betting")
+    {
+        Raylib.ClearBackground(pokergreen);
+
+        Raylib.DrawText("Place your bets:", Raylib.GetScreenWidth() / 3 - 60, 125, 50, Color.WHITE);
+        Raylib.DrawText($"{betAmount}", Raylib.GetScreenWidth() / 2 - 25, 250, 50, Color.LIGHTGRAY);
+
+        if(Raylib.IsKeyDown(KeyboardKey.KEY_RIGHT) || betAmount < playerMoney)
+        {
+            betAmount = betAmount + 100;
+        }
+
 
     }
 
