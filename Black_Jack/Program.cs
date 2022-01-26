@@ -12,7 +12,6 @@ int playerCardTotal = 0;
 int houseCardTotal = 0;
 int betAmount = 100;
 
-
 Random generator = new Random();
 
 string currentMenu = "start";
@@ -34,8 +33,6 @@ deck.Add(new Card() { name = "Three", value = 3 });
 deck.Add(new Card() { name = "Two", value = 2 });
 
 
-
-
 int selected_card = generator.Next(deck.Count);
 
 playerCardTotal = playerCardTotal + deck[selected_card].value;
@@ -45,23 +42,22 @@ int selected_card2 = generator.Next(deck.Count);
 houseCardTotal = houseCardTotal + deck[selected_card2].value;
 
 
+
 void hitCard()
 {
     int cardHit = generator.Next(deck.Count);
 
-    playerCardTotal = playerCardTotal + deck[selected_card].value;
+    playerCardTotal = playerCardTotal + deck[cardHit].value;
+
 }
 
 void houseHitCard()
 {
     int houseHit = generator.Next(deck.Count);
 
-    houseCardTotal = houseCardTotal + deck[selected_card].value;
+    houseCardTotal = houseCardTotal + deck[houseHit].value;
+
 }
-
-
-
-//Console.WriteLine(deck[selected_card].name);
 
 while (!Raylib.WindowShouldClose())
 {
@@ -121,38 +117,57 @@ while (!Raylib.WindowShouldClose())
         Raylib.DrawText($"{playerCardTotal}", Raylib.GetScreenWidth() / 2, 500, 25, Color.WHITE);
         Raylib.DrawText($"{houseCardTotal}", Raylib.GetScreenWidth() / 2, 75, 25, Color.WHITE);
 
-        Raylib.DrawText("Press H to hit and S to stand", Raylib.GetScreenWidth() / 3 - 10, 450, 20, Color.BLACK);
+        Raylib.DrawText("Press H to hit   S to stand", Raylib.GetScreenWidth() / 3 - 10, 425, 20, Color.WHITE);
 
-        if (Raylib.IsKeyPressed(KeyboardKey.KEY_H))
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_H) && playerCardTotal < 21)
         {
             hitCard();
         }
-        else if (Raylib.IsKeyPressed(KeyboardKey.KEY_S) || playerCardTotal > 21)
+        else if (playerCardTotal > 21)
+        {
+            currentMenu = "houseWins";
+            playerMoney = playerMoney - betAmount;
+        }
+        else if (playerCardTotal == 21)
         {
             currentMenu = "housePlaying";
         }
     }
-    
+
+    if (currentMenu == "housePlaying")
+    {
+        string totalpot = betAmount.ToString();
+
+        Raylib.ClearBackground(pokergreen);
+
+        Raylib.DrawText("Dealer", Raylib.GetScreenWidth() / 2 - 35, 25, 25, Color.WHITE);
+        Raylib.DrawText("You", Raylib.GetScreenWidth() / 2 - 20, 550, 25, Color.WHITE);
+        Raylib.DrawText($"Your bet = {totalpot}", Raylib.GetScreenWidth() / 2 - 100, Raylib.GetScreenHeight() / 2, 25, Color.WHITE);
+
+        Raylib.DrawText($"{playerCardTotal}", Raylib.GetScreenWidth() / 2, 500, 25, Color.WHITE);
+        Raylib.DrawText($"{houseCardTotal}", Raylib.GetScreenWidth() / 2, 75, 25, Color.WHITE);
+
+        Raylib.DrawText("Press H to hit  S to stand", Raylib.GetScreenWidth() / 3 - 10, 425, 20, Color.WHITE);
 
 
-        if (currentMenu == "housePlaying")
-        {
-            if(Raylib.IsKeyPressed(KeyboardKey.KEY_H))
-            {
-                houseHitCard();
-            }
-
-
-        }
+    }
 
 
 
 
 
 
+    if (currentMenu == "houseWins")
+    {
+        Raylib.ClearBackground(pokergreen);
+        Raylib.DrawText("HOUSE WINS!", Raylib.GetScreenWidth() / 4 - 10, Raylib.GetScreenHeight() / 2 - 100, 75, Color.RED);
+        Raylib.DrawText("Press ENTER to continue", Raylib.GetScreenWidth() / 3 + 25, Raylib.GetScreenHeight() / 2 + 50, 20, Color.WHITE);
+
+        if (Raylib.IsKeyPressed(KeyboardKey.KEY_ENTER)) { currentMenu = "betting"; }
 
 
 
+    }
 
     Raylib.EndDrawing();
 }
